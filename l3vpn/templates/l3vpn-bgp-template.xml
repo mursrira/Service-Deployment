@@ -1,0 +1,60 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$device}</name>
+      <config>
+      <router xmlns="http://tail-f.com/ned/cisco-ios-xr">
+      <bgp>
+      <bgp-no-instance>
+        <id>64999</id>
+        <neighbor-group>
+          <name>{$NEIGHBOR_GROUP_NAME}</name>
+          <remote-as>{$REMOTE_AS_NUMBER}</remote-as>
+          <address-family>
+            <ipv4>
+              <unicast>
+                <route-policy>
+                  <direction>in</direction>
+			<name>default_maithili_in</name>
+                <!--  <name>{$input_policy_map}</name> -->
+                </route-policy>
+                <route-policy>
+                  <direction>out</direction>
+		  <name>default_maithili</name>
+                <!--  <name>{$input_policy_map}</name> -->
+                </route-policy>
+                <as-override when= "{$as_override='true'}">
+                </as-override>
+                <next-hop-self when= "{$as_override='true'}">
+                </next-hop-self>
+              </unicast>
+            </ipv4>
+          </address-family>
+        </neighbor-group>
+        <vrf>
+          <name>{$vrf_name}</name>
+          <rd>64999:{$rd_num}</rd>
+          <address-family>
+            <ipv4>
+              <unicast>
+                <redistribute>
+                  <connected>
+                  </connected>
+                </redistribute>
+              </unicast>
+            </ipv4>
+          </address-family>
+          <neighbor>
+            <id>{$NEIGHBOR_IP}</id>
+            <use>
+              <neighbor-group>{$NEIGHBOR_GROUP_NAME}</neighbor-group>
+            </use>
+          </neighbor>
+        </vrf>
+      </bgp-no-instance>
+      </bgp>
+      </router>
+      </config>
+  </device>
+  </devices>
+</config>

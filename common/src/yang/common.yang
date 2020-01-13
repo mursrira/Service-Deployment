@@ -1,0 +1,39 @@
+module common {
+
+  namespace "http://mtnonline.com/common";
+  prefix common;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+
+  description
+    "Bla bla...";
+
+  revision "2019-02-11" {
+    description 
+      "* Initial file creation;
+       * TODO: Add common type-def, grouping, and reusable contents";
+  }
+
+  typedef intf-type {
+    type enumeration {
+      enum Bundle-Ether;
+      enum TenGig;
+      enum GigabitEthernet;
+    }
+  }
+
+  typedef vlan-id {
+    type uint16 {
+      range 0..4096;
+    }
+  }
+
+}

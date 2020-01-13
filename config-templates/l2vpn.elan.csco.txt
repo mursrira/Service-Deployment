@@ -1,0 +1,24 @@
+Endpoint:
+
+
+interface {interface-type}{phys-intf}.{dot1q-tag} l2transport    # interface-type = Bundle-Ether, TenGigE, GigabitEthernet
+ description {description}                                       # Example: STB_LAG_AKU_2MB_10194_190698179_IPC_LM_Akute
+ encapsulation dot1q {dot1q-tag}                                 # e.g encapsulation dot1q 4012
+ rewrite ingress tag pop 1 symmetric
+!
+!
+l2vpn
+ bridge group {bridge-group}                                     # Example: bridge group STERLINGBANK 
+  bridge-domain {bridge-domain}_VPLS                             # Example: bridge-domain STERLINGBANK_VPLS
+   interface {interface-type}{phys-intf}.{dot1q-tag}
+   !
+   vfi {vfi_id}_VPLS                                             # vfi STERLINGBANK_VPLS
+    neighbor {router-id} pw-id {pw-id}                      # Example: neighbor 10.22.4.1 pw-id 251
+    !
+    neighbor {router-id} pw-id {pw-id}                      # Example: neighbor 10.22.4.2 pw-id 251
+    !
+    neighbor {router-id} pw-id {pw-id}                      # Example: neighbor 10.22.4.3 pw-id 251
+    !
+    neighbor {router-id} pw-id {pw-id}                      # Example: neighbor 10.22.4.4 pw-id 251
+    !
+    neighbor {router-id} pw-id {pw-id}                      # Example: neighbor 10.22.4.5 pw-id 251

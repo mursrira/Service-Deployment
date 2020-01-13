@@ -1,0 +1,56 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>iosxr1</name>
+      <config>
+        <interface xmlns="http://tail-f.com/ned/cisco-ios-xr">
+          <Bundle-Ether-subinterface>
+            <Bundle-Ether>
+              <id>19.250</id>
+              <mode>l2transport</mode>
+              <description>SAMPLE</description>
+              <mtu>1100</mtu>
+              <encapsulation>
+                <dot1q>
+                  <vlan-id>250</vlan-id>
+                </dot1q>
+              </encapsulation>
+              <service-policy>
+                <input>
+                  <name>SWIFTTALK_VPLS_20MB</name>
+                </input>
+                <output>
+                  <name>SWIFTTALK_VPLS_20MB</name>
+                </output>
+              </service-policy>
+              <rewrite>
+                <ingress>
+                  <tag>
+                    <pop>1</pop>
+                    <mode>symmetric</mode>
+                  </tag>
+                </ingress>
+              </rewrite>
+            </Bundle-Ether>
+          </Bundle-Ether-subinterface>
+        </interface>
+        <l2vpn xmlns="http://tail-f.com/ned/cisco-ios-xr">
+          <xconnect>
+            <group>
+              <name>endpoint-b-xconnect</name>
+              <p2p>
+                <name>SWIFT_TALK_TO_ABEOKUTA</name>
+                <neighbor>
+                  <address>12.0.0.1</address>
+                  <pw-id>250</pw-id>
+                  <ip-version>ipv4</ip-version>
+                  <pw-class>PW_L2VPN</pw-class>
+                </neighbor>
+              </p2p>
+            </group>
+          </xconnect>
+        </l2vpn>
+      </config>
+  </device>
+  </devices>
+</config>

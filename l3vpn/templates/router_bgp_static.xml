@@ -1,0 +1,32 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$device}</name>
+      <config>
+      <router xmlns="http://tail-f.com/ned/cisco-ios-xr">
+      <bgp>
+      <bgp-no-instance>
+        <id>64999</id>
+        <vrf>
+          <name>{$vrf_name}</name>
+          <rd>64999:{$rt}</rd>
+          <address-family>
+            <ipv4>
+              <unicast>
+                <redistribute>
+                  <connected>
+                  </connected>
+                  <static>
+                  </static>
+                </redistribute>
+              </unicast>
+            </ipv4>
+          </address-family>
+        </vrf>
+      </bgp-no-instance>
+      </bgp>
+      </router>
+      </config>
+  </device>
+  </devices>
+</config>

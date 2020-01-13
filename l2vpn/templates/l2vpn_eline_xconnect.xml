@@ -1,0 +1,25 @@
+<config xmlns="http://tail-f.com/ns/config/1.0" tags="create">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$device}</name>
+      <config>
+      <l2vpn xmlns="http://tail-f.com/ned/cisco-ios-xr">
+        <xconnect>
+          <group>
+            <name>{$xconnect_group}</name>
+            <p2p>
+              <name>{$p2p_name}</name>
+              <neighbor>
+                <address>{$neighbor_ip}</address>
+                <pw-id>{$pw_id}</pw-id>
+                <ip-version>ipv4</ip-version>
+                <pw-class>{$pw_class}</pw-class>
+              </neighbor>
+            </p2p>
+          </group>
+        </xconnect>
+      </l2vpn>
+      </config>
+  </device>
+  </devices>
+</config>

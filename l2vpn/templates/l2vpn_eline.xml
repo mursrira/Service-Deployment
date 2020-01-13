@@ -1,0 +1,88 @@
+<config xmlns="http://tail-f.com/ns/config/1.0" tags="create">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$device}</name>
+      <config>
+      <!-- <?if {$interface_type = 'GigabitEthernet'}?>
+
+      <?end?>
+      <?if {$interface_type = 'TenGigE'}?>
+
+      <?end?> -->
+      <interface xmlns="http://tail-f.com/ned/cisco-ios-xr">
+      <?if {$interface_type = 'Bundle-Ether'}?>
+        <Bundle-Ether-subinterface>
+        <Bundle-Ether>
+          <id>{$interface}</id>
+          <mode>l2transport</mode>
+          <description>{$description}</description>
+          <mtu>{$mtu}</mtu>
+          <?if {$encapsulation = 'dot1q'}?>
+          <encapsulation>
+            <dot1q>
+              <vlan-id>{$dot1q_tag}</vlan-id>
+            </dot1q>
+          </encapsulation>
+          <?end?>
+          <!-- <service-policy>
+            <input>
+              <name>{servie-policy-input}</name>
+            </input>
+            <output>
+              <name>{servie-policy-output}</name>
+            </output>
+          </service-policy> -->
+          <rewrite>
+            <ingress>
+              <tag>
+                <pop>1</pop>
+                <mode>symmetric</mode>
+              </tag>
+            </ingress>
+          </rewrite>
+        </Bundle-Ether>
+        </Bundle-Ether-subinterface>
+      <?end?>
+      <?if {$interface_type = 'GigabitEthernet'}?>
+        <GigabitEthernet-subinterface>
+          <GigabitEthernet>
+            <id>{$interface}</id>
+            <mode>l2transport</mode>
+            <description>{$description}</description>
+            <mtu>{$mtu}</mtu>
+            <?if {$encapsulation_type = 'dot1q'}?>
+            <encapsulation>
+              <dot1q>
+                <vlan-id>{$dot1q_tag}</vlan-id>
+              </dot1q>
+            </encapsulation>
+            <?end?>
+            <service-policy>
+            <?if {$service_policy_in != 'None'}?>
+              <input>
+                <name>{$service_policy_in}</name>
+              </input>
+            <?end?>
+            <?if {$service_policy_out != 'None'}?>
+              <output>
+                <name>{$service_policy_out}</name>
+              </output>
+            <?end?>
+            </service-policy>
+            <rewrite>
+              <ingress>
+                <tag>
+                  <pop>1</pop>
+                  <mode>symmetric</mode>
+                </tag>
+              </ingress>
+            </rewrite>
+          </GigabitEthernet>
+        </GigabitEthernet-subinterface>
+      <?end?>
+      </interface>
+    </config>
+  </device>
+  </devices>
+</config>
+

@@ -1,0 +1,26 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+  <device>
+    <name>{$device}</name>
+      <config>
+      <router xmlns="http://tail-f.com/ned/cisco-ios-xr">
+      <static>
+        <vrf>
+          <name>{$vrf_name}</name>
+          <address-family>
+            <ipv4>
+              <unicast>
+                <routes-ip>
+                  <net>{$customer_net_addr}</net>
+                  <address>{$customer_net_mask}</address>
+                </routes-ip>
+              </unicast>
+            </ipv4>
+          </address-family>
+        </vrf>
+      </static>
+      </router>
+      </config>
+  </device>
+  </devices>
+</config>

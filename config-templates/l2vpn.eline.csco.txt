@@ -1,0 +1,50 @@
+Endpoint-a:
+
+interface {interface-type}{phys-intf}.{dot1q-tag} l2transport    # interface-type = Bundle-Ether, TenGigE, GigabitEthernet
+ description {description}                                       # Undefined string
+ encapsulation dot1q {dot1q-tag}                                 # e.g encapsulation dot1q 4012
+ rewrite ingress tag pop 1 symmetric
+ mtu {mtu}                                                       # Should be set to the lowest value from endpoint-a and endpoint-b
+ service-policy input SWIFTTALK_VPLS_20MB                        # service polcies should be an enum & pre-exist
+ service-policy output SWIFTTALK_VPLS_20MB
+!
+!
+l2vpn
+ xconnect group {xconnect-group}
+  p2p SWIFT_TALK_TO_ABEOKUTA
+   neighbor ipv4 {endpoint-a-lo0} pw-id {dot1q-tag}              # lookup endpoint loopbacks and auto populate
+    pw-class {pw-class-name}                                     # pw-class = enum = {PW_L2VPN || PW-L2VPN_VLAN}
+ !
+ pw-class PW-L2VPN_VLAN                                          # this config should pre-exist on the device
+ encapsulation mpls                                              # Adding for refernce only
+ transport-mode vlan
+ !
+ pw-class PW-L2VPN-INTERNET                                      # this config should pre-exist on the device
+ encapsulation mpls                                              # Adding for refernce only
+
+Endpoint-b:
+
+interface {interface-type}{phys-intf}.{dot1q-tag} l2transport    # interface-type = Bundle-Ether, TenGigE, GigabitEthernet
+ description {description}                                       # Undefined string
+ encapsulation dot1q {dot1q-tag}                                 # e.g encapsulation dot1q 4012
+ rewrite ingress tag pop 1 symmetric
+ mtu {mtu}                                                       # Should be set to the lowest value from endpoint-a and endpoint-b
+ service-policy input SWIFTTALK_VPLS_20MB                        # service polcies should be an enum & pre-exist
+ service-policy output SWIFTTALK_VPLS_20MB
+!
+!
+l2vpn
+ xconnect group {xconnect-group}
+  p2p SWIFT_TALK_TO_ABEOKUTA
+   neighbor ipv4 {endpoint-b-lo0} pw-id {dot1q-tag}              # lookup endpoint loopbacks and auto populate
+    pw-class {pw-class-name}                                     # pw-class = enum = {PW_L2VPN || PW-L2VPN_VLAN}
+ !
+ pw-class PW-L2VPN_VLAN                                          # this config should pre-exist on the device
+ encapsulation mpls                                              # Adding for refernce only
+ transport-mode vlan
+ !
+ pw-class PW-L2VPN-INTERNET                                      # this config should pre-exist on the device
+ encapsulation mpls                                              # Adding for refernce only
+
+Missing Info:
+1. service-policy names & configs

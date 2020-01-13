@@ -1,0 +1,80 @@
+module vrf-config {
+
+    namespace "http://mtn.com/vrf-config";
+    prefix vrf-config;
+
+    import ietf-inet-types {
+        prefix inet;
+    }
+    import tailf-common {
+        prefix tailf;
+    }
+    import tailf-ncs {
+        prefix ncs;
+    }
+
+    import tailf-ned-cisco-ios-xr {
+        prefix cisco-ios-xr;
+    }
+
+    revision 2018-07-30 {
+        description
+          "Minor updates";
+    }
+
+    revision 2018-03-01 {
+        description
+          "Initial revision.";
+    }
+
+    grouping vrf-grouping {
+        leaf device {
+            type leafref {
+                path "/ncs:devices/ncs:device/ncs:name";
+            }
+        }
+
+        leaf vrf-name {
+            tailf:info "Customer VRF name";
+            type string;
+        }
+
+	leaf vrf-description {
+	    tailf:info "VRF Description";
+	    type string;
+	}
+
+
+        leaf route-target {
+            tailf:info "Route target";
+            mandatory true;
+            type uint32 {
+                range "1..99999";
+            }
+
+        }
+
+        leaf export-route-policy{
+            tailf:info "Export Route Policy Name";
+            type string;
+        }
+
+}    
+
+        list vrf-config {
+            description
+              "This is an RFS skeleton service";
+
+            key "device vrf-name";
+            uses vrf-grouping {
+                refine "vrf-name" {
+                    mandatory true;
+                }
+                refine "device" {
+                    mandatory true;
+                }
+            }
+        // may replace this with other ways of refering to the devices.
+        }
+    }
+

@@ -1,0 +1,101 @@
+module vrf-config {
+
+    namespace "http://example.com/vrf-config";
+    prefix vrf-config;
+
+    import ietf-inet-types {
+        prefix inet;
+    }
+    import tailf-common {
+        prefix tailf;
+    }
+    import tailf-ncs {
+        prefix ncs;
+    }
+
+    import tailf-ned-cisco-ios-xr {
+        prefix cisco-ios-xr;
+    }
+
+    revision 2018-07-30 {
+        description
+          "Minor updates";
+    }
+
+    revision 2018-03-01 {
+        description
+          "Initial revision.";
+    }
+
+    grouping vrf-grouping {
+        leaf device {
+            type leafref {
+                path "/ncs:devices/ncs:device/ncs:name";
+            }
+        }
+
+        leaf vrf-name {
+            tailf:info "Customer VRF name";
+            type string;
+        }
+
+        leaf local-as-number {
+            tailf:info "Local AS number";
+            type enumeration {
+                enum 65000;
+                enum 16637;
+            }
+            mandatory true;
+        }
+
+        leaf route-target {
+            tailf:info "Route target";
+            mandatory true;
+            type uint32 {
+                range "1..99999";
+            }
+
+        }
+
+        leaf max-prefix {
+            tailf:info "Max prefix";
+            type uint32 {
+                range "1..100000";
+            }
+            default 5000;
+        }
+
+        leaf local-preference {
+            tailf:hidden true;
+            when "count(deref(../device)/../ncs:module[ncs:name='tailf-ned-cisco-ios-xr']/ncs:name) != 0" {
+                tailf:dependency "../device";
+            }
+            tailf:info "Local preference";
+            type enumeration {
+                enum PRIMARY;
+                enum SECONDARY;
+            }
+            
+        }
+    }
+
+    augment "/ncs:services" {
+        list vrf-config {
+            description
+              "This is an RFS skeleton service";
+
+            key "device vrf-name";
+            uses ncs:service-data;
+            ncs:servicepoint vrf-config-servicepoint;
+            uses vrf-grouping {
+                refine "vrf-name" {
+                    mandatory true;
+                }
+                refine "device" {
+                    mandatory true;
+                }
+            }
+        // may replace this with other ways of refering to the devices.
+        }
+    }
+}

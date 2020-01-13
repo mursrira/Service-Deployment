@@ -1,0 +1,68 @@
+module p2p-endpoint-params {
+    namespace "http://mtn.com/l2vp";
+    prefix p2p-endpoint-params;
+    import tailf-ncs-alarms {
+        prefix al;
+    }
+    import ietf-inet-types {
+        prefix inet;
+    }
+    import tailf-common {
+        prefix tailf;
+    }
+    import tailf-ncs {
+        prefix ncs;
+    }
+    organization
+        "Cisco";
+    grouping l2vpn-eline{
+        leaf interface-type {
+            tailf:info "Interface Type";
+                type enumeration {
+                enum "Bundle-Ether";
+                enum "GigabitEthernet";
+                enum "TenGigE";
+            }
+        }
+        leaf description {
+            tailf:info "Description of the interface";
+            type string;
+        }
+        leaf phys-intf {
+            type string;
+        }
+        leaf encapsulation {
+            tailf:info "Interface Encapsulation Type dot1q";
+            type enumeration {
+                enum dot1q;
+            }
+        }
+        leaf mtu {
+            type string;
+        }
+        leaf servie-policy-input {
+            type enumeration{
+                enum SWIFTTALK_VPLS_20MB;
+                enum SWIFTTALK_VPLS_10MB;
+            }
+        }
+        leaf servie-policy-output {
+            type enumeration{
+                enum SWIFTTALK_VPLS_20MB;
+                enum SWIFTTALK_VPLS_10MB;
+            }
+        }
+        leaf xconnect-group {
+            type string;
+        }
+        leaf p2p_name {
+            type string;
+        }
+        leaf pw-class {
+            type enumeration{
+                enum PW_L2VPN;
+                enum PW-L2VPN_VLAN;
+            }
+        }
+    }
+}
